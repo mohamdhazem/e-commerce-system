@@ -1,4 +1,4 @@
-package Products;
+package ProductTypes;
 
 import Interfaces.IExpirableProduct;
 

@@ -1,13 +1,13 @@
-package Products;
+package ProductTypes;
 
 import Interfaces.IExpirableProduct;
-import Interfaces.IShippingProduct;
+import Interfaces.IShippableProduct;
 
-public class Expirable_Shipping_Product extends Product implements IShippingProduct, IExpirableProduct {
+public class Expirable_Shippable_Product extends Product implements IShippableProduct, IExpirableProduct {
     private final double weight;
     private boolean IsExpired = false;
 
-    public Expirable_Shipping_Product(String Name, int Price, int StockQuantity, double Weight) {
+    public Expirable_Shippable_Product(String Name, int Price, int StockQuantity, double Weight) {
         super(Name, Price, StockQuantity);
         weight = Weight;
     }

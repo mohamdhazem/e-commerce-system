@@ -1,22 +1,25 @@
 package Orders;
 
-import Interfaces.IShippingProduct;
+import Customers.Customer;
+import Interfaces.IShippableProduct;
 import Interfaces.IShippingService;
-import Products.Expirable_Shipping_Product;
-import Products.Product;
-import Products.ShippingProduct;
+import ProductTypes.Expirable_Shippable_Product;
+import ProductTypes.Product;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class Order {
-    private IShippingService shippingService;
-    private Map<IShippingProduct, Integer> shippingProducts = new HashMap<IShippingProduct, Integer>();
+    private final IShippingService shippingService;
+    private Map<IShippableProduct, Integer> shippingProducts = new HashMap<IShippableProduct, Integer>();
     int SubTotal;
     int ShippingCost;
     int Amount;
 
-    
+    public Order(IShippingService shippingService){
+        this.shippingService = shippingService;
+    }
+
     public void Checkout(Customer customer, Cart cart){
 
         if (cart.productsMap.isEmpty()){
@@ -37,18 +40,17 @@ public class Order {
 
             if (entry.getKey().HasWeight())
             {
-                if (entry.getKey() instanceof IShippingProduct shippingProduct)
+                if (entry.getKey() instanceof IShippableProduct shippingProduct)
                     shippingProducts.put(shippingProduct,entry.getValue());
 
-                if (entry.getKey() instanceof Expirable_Shipping_Product expirableShippingProduct)
+                if (entry.getKey() instanceof Expirable_Shippable_Product expirableShippingProduct)
                     shippingProducts.put(expirableShippingProduct,entry.getValue());
             }
 
             SubTotal += entry.getKey().GetPrice() * entry.getValue();
         }
 
-        shippingService = new ShippingService(shippingProducts);
-        ShippingCost = shippingService.ShippingCost();
+        ShippingCost = shippingService.ShippingCost(shippingProducts);
         Amount = SubTotal + ShippingCost;
 
         if (customer.GetBalance() < Amount){
@@ -59,7 +61,7 @@ public class Order {
         customer.SetBalance(customer.GetBalance() - Amount);
 
         // Print ShippingCost Details
-        shippingService.PrintDetails();
+        shippingService.PrintDetails(shippingProducts);
         // Print Checkout Receipt
         System.out.println("** Checkout receipt **");
         for (Map.Entry<Product, Integer> entry : cart.productsMap.entrySet())

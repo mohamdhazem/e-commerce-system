@@ -1,17 +1,24 @@
-import Interfaces.IShippingProduct;
+import Customers.Customer;
+import Interfaces.IShippingService;
 import Orders.Cart;
-import Orders.Customer;
 import Orders.Order;
-import Products.Expirable_Shipping_Product;
-import Products.Product;
-import Products.ShippingProduct;
+import Orders.ShippingService;
+import ProductSamples.Cheese;
+import ProductSamples.ScratchCard;
+import ProductSamples.Tv;
+import ProductTypes.Expirable_Shippable_Product;
+import ProductTypes.Product;
+import ProductTypes.ShippingProduct;
 
 public class main {
     public static void main(String[] args) {
 
-        Product cheese = new Expirable_Shipping_Product("Cheese",200,50,200);
-        Product tv = new ShippingProduct("Samsung",10000,5,3000);
-        Product scratchCard = new Product("scratchCard_1",20,100);
+        Product cheese = new Cheese("Mozzarella cheese",200,50,500);
+        Product tv = new Tv("Samsung",10000,5,3000);
+        Product scratchCard = new ScratchCard("scratchCard_1",20,100);
+
+        // Shipping Service that used in order can be changed here without effect on anything (Loosely coupled)
+        IShippingService shippingService = new ShippingService();
 
 
         //************************** Success Example **************************//
@@ -22,7 +29,8 @@ public class main {
         cart.add(tv, 4);
         cart.add(scratchCard, 1);
 
-        Order order = new Order();
+
+        Order order = new Order(shippingService);
         order.Checkout(customer, cart);
 
         //************************** Product Out Of Stock Example **************************//
@@ -33,10 +41,10 @@ public class main {
 //        cart.add(tv, 4);
 //        cart.add(scratchCard, 1);
 //
-//        Order order = new Order();
+//        Order order = new Order(shippingService);
 //        order.Checkout(customer, cart);
 
-        //************************** Customer's balance is insufficient Example **************************//
+        //************************** Customers.Customer's balance is insufficient Example **************************//
 //        Customer customer = new Customer(1000);
 //
 //        Cart cart = new Cart();
@@ -44,7 +52,7 @@ public class main {
 //        cart.add(tv, 4);
 //        cart.add(scratchCard, 1);
 //
-//        Order order = new Order();
+//        Order order = new Order(shippingService);
 //        order.Checkout(customer, cart);
 
         //************************** Cart is Empty Example **************************//
@@ -52,7 +60,7 @@ public class main {
 //
 //        Cart cart = new Cart();
 //
-//        Order order = new Order();
+//        Order order = new Order(shippingService);
 //        order.Checkout(customer, cart);
     }
 }

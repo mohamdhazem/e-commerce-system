@@ -1,6 +1,4 @@
-package Products;
-
-import java.nio.file.FileAlreadyExistsException;
+package ProductTypes;
 
 public class Product{
 

@@ -1,6 +1,6 @@
 package Interfaces;
 
-public interface IShippingProduct {
+public interface IShippableProduct {
     public String GetName();
     public Double GetWeight();
 }

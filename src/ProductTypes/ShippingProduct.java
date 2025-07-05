@@ -1,8 +1,8 @@
-package Products;
+package ProductTypes;
 
-import Interfaces.IShippingProduct;
+import Interfaces.IShippableProduct;
 
-public class ShippingProduct extends Product implements IShippingProduct {
+public class ShippingProduct extends Product implements IShippableProduct {
 
     private final Double weight;
 

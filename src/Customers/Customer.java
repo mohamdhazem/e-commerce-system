@@ -1,4 +1,4 @@
-package Orders;
+package Customers;
 
 public class Customer {
     private int balance;
